@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 export default function MemeGenerator() {
   const [url, setUrl] = useState('')
-  const [memes, setMemes] = useState<string[]>([])
+  const [memes, setMemes] = useState([])
   const [loading, setLoading] = useState(false)
 
   const generateMemes = async () => {
@@ -52,9 +52,9 @@ export default function MemeGenerator() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         {memes.map((meme, i) => (
           <div key={i} className="relative group">
-            <img src={meme} alt="meme" className="rounded-2xl shadow-2xl" />
+            <img src={meme} alt="meme" className="rounded-2xl shadow-2xl w-full" />
             <div className="absolute top-2 right-2 bg-green-500 text-black px-3 py-1 rounded-full font-bold text-xl">
-              {(95 + Math.random() * 5).toFixed(0)}
+              {(94 + Math.random() * 6).toFixed(0)}
             </div>
             <a
               href={meme}

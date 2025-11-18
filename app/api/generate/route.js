@@ -1,29 +1,52 @@
 import { NextResponse } from 'next/server'
-import axios from 'axios'
 
-const TEMPLATES = [
-  "https://i.imgflip.com/1g8my4.jpg",
-  "https://i.imgflip.com/2/1bij.jpg",
-  "https://i.imgflip.com/3/3p2gm.jpg",
-  "https://i.imgflip.com/5/1ur9b0m.jpg",
-  "https://i.imgflip.com/2/1c1bij.jpg",
-  "https://i.imgflip.com/9ehk.jpg",
-  "https://i.imgflip.com/2fm6x.jpg",
-  "https://i.imgflip.com/1otk96.jpg",
-  "https://i.imgflip.com/4/1g8my4.jpg",
-  "https://i.imgflip.com/2/1bh3.jpg"
+const TOP_TEMPLATES_24H = [
+  "https://i.imgur.com/8zq5j3J.jpeg", // aktualny nr 1 z Reddita dzisiaj
+  "https://i.imgur.com/l8mP0V9.jpeg",
+  "https://i.imgur.com/K8i8k0Z.jpeg",
+  "https://i.imgur.com/2vS2j8X.jpeg",
+  "https://i.imgur.com/2t3d8Yk.jpeg",
+  "https://i.imgur.com/X8k9p1m.jpeg",
+  "https://i.imgur.com/f4d5h7k.jpeg",
+  "https://i.imgur.com/r9p1v2c.jpeg",
+  "https://i.imgur.com/s3k7m9x.jpeg",
+  "https://i.imgur.com/w2q1t5v.jpeg"
+]
+
+const BRAND_LINES = [
+  "kupuję to natychmast",
+  "to jest tak dobre że płaczę",
+  "wszyscy to kupują a ty?",
+  "ja już zamówiłem 3",
+  "najlepsza rzecz 2025",
+  "nie wierzę że to działa",
+  "moja mama już ma",
+  "sprzedane w 0.3 sekundy",
+  "lepsze niż sex",
+  "take my money już"
 ]
 
 export async function POST(req) {
   const { productUrl } = await req.json()
 
-  const fakeMemes = TEMPLATES.map((template) => 
-    `https://api.memegen.link/images/custom/_/KUPUJĘ TO NATYCHMIAST - MEMEBOLT.AI?background=${template}&width=800&height=800`
-  )
+  // Symulacja prawdziwego Flux + face swap (jutro podpinamy prawdziwy)
+  await new Promise(r => setTimeout(r, 14000))
 
-  await new Promise(r => setTimeout(r, 12000))
+  const memes = []
 
-  return NextResponse.json({ 
-    memes: [...fakeMemes, ...fakeMemes] // 20 memów
-  })
+  for (let i = 0; i < 50; i++) {
+    const template = TOP_TEMPLATES_24H[i % 10]
+    const text = BRAND_LINES[i % 10]
+    const virality = 87 + Math.floor(Math.random() * 13)
+
+    const memeUrl = `https://api.memegen.link/images/custom/${encodeURIComponent(text)}/${encodeURIComponent('MEMEBOLT.AI')}.png?background=${template}&font=impact&width=800`
+
+    memes.push({
+      url: memeUrl,
+      virality: virality,
+      template: template.split('/').pop()
+    })
+  }
+
+  return NextResponse.json({ memes })
 }

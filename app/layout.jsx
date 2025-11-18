@@ -5,11 +5,7 @@ export const metadata = {
   description: 'First Real-Time Viral Meme Ads Engine 2025',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }) {
   return (
     <html lang="pl">
       <body className="bg-black">{children}</body>
